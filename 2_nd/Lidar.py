@@ -101,7 +101,7 @@ lidar.disconnect()
 
 # Тут написать код для перевода в csv file
 field_names = ["angle_serv", "id", "angle", "lenght"]
-file_name = f"scan_{time.strftime('%d.%m.%Y %H:%M:%S')}"
+file_name = f"scan_{time.strftime('%d_%m_%Y_%H:%M:%S')}.csv"
 
 with open(file_name, "w", encoding="utf-8") as file:
     writer = csv.writer(file, delimiter=",", lineterminator="\r")
