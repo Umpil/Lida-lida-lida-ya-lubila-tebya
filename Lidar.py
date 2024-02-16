@@ -18,6 +18,7 @@ lidar = None
 torq_code = 64  # Вкл-выкл
 
 velociti_code = 104  # Скорость
+velociti__limit_code = 44
 
 goal_pos_code = 116  # Позиция, в которую должен придти сервопривод
 
@@ -45,6 +46,10 @@ if port_number.is_open:
 # Пытаемся открыть порт для передачи данных и установить скорость передачи данных
 if port_number.openPort():
     print("Opened")
+    # Устанавливается лимит скорости от 1 о 1023
+    packet_hand_2.write4ByteTxRx(port_number, device_id, velociti__limit_code, 500)
+    # Устанавливается скорость от -velocity_limit_code до +velocity_limit_code
+    packet_hand_2.write4ByteTxRx(port_number, device_id, velociti_code, 200)
 else:
     print("Something went wrong(")
 
@@ -57,6 +62,8 @@ try:
 
     # Передаём 1 байт информации, что надо по порту обратиться к переменной включения и включить серву
     packet_hand_2.write1ByteTxRx(port_number, device_id, torq_code, data=torq_enable)
+
+
     # Грубо говоря, происходит это по схеме:
     # packet_hand_2./Функция "write"/(port_handler, id сервы, код переменной сервы, новое значение переменной)
     # А чтобы получить данные из:
